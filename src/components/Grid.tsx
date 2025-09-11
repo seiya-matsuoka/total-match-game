@@ -1,24 +1,37 @@
+import { cn } from '../lib/cn';
+
 type Props = {
-  numbers?: number[]; // 9要素想定。未指定なら 1..9 を仮表示
-  onCellClick?: (index: number) => void; // 後で実装予定
+  numbers: number[];
+  selectedIdxs: number[];
+  onCellClick: (index: number) => void;
+  disabled?: boolean;
 };
 
-export default function Grid({ numbers, onCellClick }: Props) {
-  const cells = numbers ?? Array.from({ length: 9 }, (_, i) => i + 1);
-
+export default function Grid({ numbers, selectedIdxs, onCellClick, disabled }: Props) {
   return (
-    <div className="grid grid-cols-3 gap-3">
-      {cells.map((n, i) => (
-        <button
-          key={i}
-          type="button"
-          aria-label={`cell-${i + 1}`}
-          className="h-20 w-20 rounded-xl border text-2xl font-bold"
-          onClick={() => onCellClick?.(i)}
-        >
-          {n}
-        </button>
-      ))}
+    <div className="grid h-full w-full grid-cols-3 gap-2 sm:gap-3">
+      {numbers.map((n, i) => {
+        const selected = selectedIdxs.includes(i);
+        return (
+          <button
+            key={i}
+            type="button"
+            aria-label={`cell-${i + 1}`}
+            disabled={disabled}
+            onClick={() => onCellClick(i)}
+            className={cn(
+              'w-full aspect-square select-none rounded-md text-4xl sm:text-5xl font-extrabold tracking-tight transition',
+              'ring-4 shadow-sm focus:outline-none focus-visible:ring-4',
+              selected
+                ? 'bg-orange-300 text-yellow-900 ring-orange-600'
+                : 'bg-cyan-200 text-blue-900 ring-blue-700/60 hover:bg-cyan-100',
+              disabled && 'opacity-60 pointer-events-none',
+            )}
+          >
+            {n}
+          </button>
+        );
+      })}
     </div>
   );
 }
