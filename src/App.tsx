@@ -189,6 +189,11 @@ export default function App() {
     'rounded-lg px-3.5 py-1.5 text-sm font-medium bg-white shadow-sm ring-2 transition hover:bg-slate-50 active:translate-y-[0.5px] focus-visible:outline-none';
   const btnInfo = `${btnBase} text-blue-800 ring-blue-400/70`;
   const btnDanger = `${btnBase} text-rose-800 ring-rose-400/70`;
+  const btnNeutral = `${btnBase} text-slate-800 ring-slate-300/80`;
+  const btnPrimaryNavy =
+    'rounded-lg px-5 py-2 text-base font-semibold text-white shadow-sm ' +
+    'bg-indigo-800 hover:bg-indigo-900 active:translate-y-[0.5px] ' +
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300';
 
   return (
     <main className="mx-auto min-h-svh max-w-5xl px-4 pb-12 pt-20 sm:px-6 sm:pb-18 sm:pt-28 -mt-3 sm:-mt-4">
@@ -236,20 +241,32 @@ export default function App() {
 
             {/* タイムアップオーバーレイ */}
             {ended && (
-              <div className="absolute inset-0 grid place-items-center rounded-lg bg-white/90">
-                <div className="flex flex-col items-center gap-3">
-                  <div className="text-2xl font-extrabold text-slate-800">タイムアップ！</div>
-                  <div className="text-sm text-gray-600">
-                    スコア: {score} / 最高記録: {highScore}
+              <div className="absolute inset-0 grid place-items-center rounded-xl bg-white/90 p-4 sm:p-6">
+                {/* 中央基準。-translate-y で“少し上”に見せる */}
+                <div className="w-[92%] max-w-[640px] text-center -translate-y-1 sm:-translate-y-2">
+                  <h2 className="text-[32px] sm:text-[42px] font-extrabold tracking-wide text-slate-800">
+                    タイムアップ！
+                  </h2>
+
+                  {/* 記録：少し広めの余白 */}
+                  <div className="mt-4 flex flex-wrap justify-center gap-3">
+                    <span className={`${pillCls} px-4 py-1.5 text-base sm:text-lg`}>
+                      スコア: {score}
+                    </span>
+                    <span className={`${pillCls} px-4 py-1.5 text-base sm:text-lg`}>
+                      最高記録: {highScore}
+                    </span>
                   </div>
-                  <div className="mt-1 flex gap-3">
-                    <button
-                      className="rounded-md bg-purple-700 px-4 py-2 font-semibold text-white"
-                      onClick={restart}
-                    >
+
+                  {/* ボタン：間隔を確保。もう一度は紺色ソリッド */}
+                  <div className="mt-6 flex justify-center gap-4">
+                    <button className={btnPrimaryNavy} onClick={restart}>
                       もう一度
                     </button>
-                    <button className="rounded-md border px-4 py-2" onClick={resetToSettings}>
+                    <button
+                      className={`${btnNeutral} px-5 py-2 text-base`}
+                      onClick={resetToSettings}
+                    >
                       設定へ
                     </button>
                   </div>
