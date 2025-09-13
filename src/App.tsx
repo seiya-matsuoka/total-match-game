@@ -13,6 +13,7 @@ import {
   loadHighScore,
   updateHighScoreIfBest,
 } from './game/config';
+import { pillCls, btnNeutral, btnDanger, btnInfo, btnPrimaryNavy } from './ui/tokens';
 
 export default function App() {
   const [config, setConfig] = useState<GameConfig>(() => loadConfig());
@@ -181,19 +182,6 @@ export default function App() {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isRunning, ended, showHelp, config.controlMode, round.size, focusIdx, handleCellClick]);
-
-  // UI 統一クラス（説明/リセットボタン、ピルなど）
-  const pillCls =
-    'rounded-full bg-white/95 px-3.5 py-1.5 text-[13px] font-medium text-slate-800 shadow-sm ring-2 ring-slate-300/80';
-  const btnBase =
-    'rounded-lg px-3.5 py-1.5 text-sm font-medium bg-white shadow-sm ring-2 transition hover:bg-slate-50 active:translate-y-[0.5px] focus-visible:outline-none';
-  const btnInfo = `${btnBase} text-blue-800 ring-blue-400/70`;
-  const btnDanger = `${btnBase} text-rose-800 ring-rose-400/70`;
-  const btnNeutral = `${btnBase} text-slate-800 ring-slate-300/80`;
-  const btnPrimaryNavy =
-    'rounded-lg px-5 py-2 text-base font-semibold text-white shadow-sm ' +
-    'bg-indigo-800 hover:bg-indigo-900 active:translate-y-[0.5px] ' +
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300';
 
   return (
     <main className="mx-auto min-h-svh max-w-5xl px-4 pb-12 pt-20 sm:px-6 sm:pb-18 sm:pt-28 -mt-3 sm:-mt-4">

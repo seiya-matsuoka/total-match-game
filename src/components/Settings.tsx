@@ -14,6 +14,7 @@ import {
   deleteSavedConfig,
   type SavedConfig,
 } from '../game/config';
+import { btnPrimaryNavy } from '../ui/tokens';
 
 type Props = { config: GameConfig; onChange: (n: GameConfig) => void; onStart: () => void };
 
@@ -32,6 +33,13 @@ function sameConfig(a: GameConfig, b: GameConfig) {
     a.controlMode === b.controlMode
   );
 }
+
+// セグメントボタンの共通トーン
+const segBase =
+  'rounded-md px-3 py-1.5 text-sm shadow-sm ring-2 transition focus-visible:outline-none';
+const segOn = 'bg-slate-900 text-white ring-slate-900';
+const segOff = 'bg-white text-slate-800 ring-slate-300 hover:bg-slate-50';
+const segDisabled = 'opacity-45 cursor-not-allowed';
 
 export default function Settings({ config, onChange, onStart }: Props) {
   function update<K extends keyof GameConfig>(key: K, value: GameConfig[K]) {
@@ -55,7 +63,7 @@ export default function Settings({ config, onChange, onStart }: Props) {
 
   const [showSave, setShowSave] = useState(false);
   const [saveName, setSaveName] = useState(() => `設定${saved.length + 1}`);
-  const MAX_NAME = 16; // ★ ボタンに被らない程度
+  const MAX_NAME = 16;
 
   const isDuplicate = saved.some((s) => sameConfig(s.config, config));
   const isSaveDisabled = isDuplicate || saved.length >= 4;
@@ -83,31 +91,25 @@ export default function Settings({ config, onChange, onStart }: Props) {
   }
 
   return (
-    <div className="relative w-full max-w-[520px] rounded-xl bg-white p-3 text-[13px] shadow">
-      {/* 上部バー：スタートのみ（目立つ） */}
-      <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-lg font-bold">設定</h2>
-        <button
-          className="rounded-lg bg-purple-700 px-6 py-2.5 text-base font-bold text-white shadow hover:opacity-90"
-          onClick={onStart}
-        >
+    <div className="relative w-full max-w-[520px] rounded-xl bg-white p-4 text-[13px] ring-2 ring-slate-300/80 shadow-sm sm:p-6">
+      {/* 上部バー */}
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="text-lg font-bold text-slate-800">設定</h2>
+        <button className={btnPrimaryNavy} onClick={onStart}>
           スタート
         </button>
       </div>
 
       {/* 2カラム配置 */}
-      <div className="mb-3 grid grid-cols-2 gap-3">
+      <div className="mb-4 grid grid-cols-2 gap-3">
         {/* 操作 */}
         <div>
-          <div className="mb-1 font-semibold text-gray-700">操作</div>
-          <div className="flex flex-wrap gap-2">
+          <div className="mb-1 text-[13px] font-medium text-slate-600">操作</div>
+          <div className="flex flex-wrap gap-2" role="group" aria-label="操作">
             {CONTROL_MODE_OPTIONS.map((m) => (
               <button
                 key={m}
-                className={[
-                  'rounded-md border px-2.5 py-1',
-                  m === config.controlMode ? 'bg-gray-900 text-white' : 'bg-white',
-                ].join(' ')}
+                className={`${segBase} ${m === config.controlMode ? segOn : segOff}`}
                 onClick={() => update('controlMode', m)}
               >
                 {m === 'mouse' ? 'マウス' : 'キーボード'}
@@ -118,15 +120,12 @@ export default function Settings({ config, onChange, onStart }: Props) {
 
         {/* グリッド */}
         <div>
-          <div className="mb-1 font-semibold text-gray-700">グリッド</div>
-          <div className="flex flex-wrap gap-2">
+          <div className="mb-1 text-[13px] font-medium text-slate-600">グリッド</div>
+          <div className="flex flex-wrap gap-2" role="group" aria-label="グリッド">
             {GRID_SIZE_OPTIONS.map((g) => (
               <button
                 key={g}
-                className={[
-                  'rounded-md border px-2.5 py-1',
-                  g === config.gridSize ? 'bg-gray-900 text-white' : 'bg-white',
-                ].join(' ')}
+                className={`${segBase} ${g === config.gridSize ? segOn : segOff}`}
                 onClick={() => update('gridSize', g)}
               >
                 {g} × {g}
@@ -135,21 +134,18 @@ export default function Settings({ config, onChange, onStart }: Props) {
           </div>
         </div>
 
-        {/* 選択するマス数（常に全候補を表示、許容外はdisabled） */}
+        {/* 選択するマス数 */}
         <div>
-          <div className="mb-1 font-semibold text-gray-700">選択するマス数</div>
-          <div className="flex flex-wrap gap-2">
+          <div className="mb-1 text-[13px] font-medium text-slate-600">選択するマス数</div>
+          <div className="flex flex-wrap gap-2" role="group" aria-label="選択するマス数">
             {ALL_PICKS_OPTIONS.map((k) => {
               const ok = pickAllowed.includes(k);
+              const on = k === config.picksCount;
               return (
                 <button
                   key={k}
                   disabled={!ok}
-                  className={[
-                    'rounded-md border px-2.5 py-1',
-                    k === config.picksCount ? 'bg-gray-900 text-white' : 'bg-white',
-                    !ok ? 'cursor-not-allowed opacity-40' : '',
-                  ].join(' ')}
+                  className={`${segBase} ${on ? segOn : segOff} ${ok ? '' : segDisabled}`}
                   onClick={() => ok && update('picksCount', k)}
                 >
                   {k}
@@ -159,21 +155,18 @@ export default function Settings({ config, onChange, onStart }: Props) {
           </div>
         </div>
 
-        {/* ターゲット最大（常に全候補表示、許容外はdisabled） */}
+        {/* ターゲット最大 */}
         <div>
-          <div className="mb-1 font-semibold text-gray-700">ターゲット最大</div>
-          <div className="flex flex-wrap gap-2">
+          <div className="mb-1 text-[13px] font-medium text-slate-600">ターゲット最大</div>
+          <div className="flex flex-wrap gap-2" role="group" aria-label="ターゲット最大">
             {ALL_TARGET_MAX_OPTIONS.map((t) => {
               const ok = targetAllowed.includes(t);
+              const on = t === config.targetMax;
               return (
                 <button
                   key={t}
                   disabled={!ok}
-                  className={[
-                    'rounded-md border px-2.5 py-1',
-                    t === config.targetMax ? 'bg-gray-900 text-white' : 'bg-white',
-                    !ok ? 'cursor-not-allowed opacity-40' : '',
-                  ].join(' ')}
+                  className={`${segBase} ${on ? segOn : segOff} ${ok ? '' : segDisabled}`}
                   onClick={() => ok && update('targetMax', t)}
                 >
                   {t}
@@ -183,19 +176,15 @@ export default function Settings({ config, onChange, onStart }: Props) {
           </div>
         </div>
 
-        {/* 不正解時 + 右端に保存ボタン（同一行・同じ高さ） */}
-        {/* 不正解時（行の右端に「保存」） */}
+        {/* 不正解時 + 保存 */}
         <div className="col-span-2">
-          <div className="mb-1 font-semibold text-gray-700">不正解時</div>
+          <div className="mb-1 text-[13px] font-medium text-slate-600">不正解時</div>
           <div className="flex items-center justify-between gap-2">
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2" role="group" aria-label="不正解時">
               {WRONG_MODE_OPTIONS.map((m) => (
                 <button
                   key={m}
-                  className={[
-                    'rounded-md border px-2.5 py-1',
-                    m === config.wrongMode ? 'bg-gray-900 text-white' : 'bg-white',
-                  ].join(' ')}
+                  className={`${segBase} ${m === config.wrongMode ? segOn : segOff}`}
                   onClick={() => update('wrongMode', m)}
                 >
                   {m === 'keep' ? '問題継続' : '問題切替'}
@@ -204,10 +193,7 @@ export default function Settings({ config, onChange, onStart }: Props) {
             </div>
 
             <button
-              className={[
-                'rounded-md border px-2.5 py-1',
-                isSaveDisabled ? 'cursor-not-allowed opacity-50' : '',
-              ].join(' ')}
+              className={`rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium shadow-sm hover:bg-slate-50 active:translate-y-[0.5px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-200 ${isSaveDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
               disabled={isSaveDisabled}
               onClick={openSave}
               title={
@@ -220,18 +206,19 @@ export default function Settings({ config, onChange, onStart }: Props) {
         </div>
       </div>
 
-      {/* 保存済み（常に 2×2 レイアウトで固定） */}
+      {/* 保存済み（2×2固定） */}
       <div>
-        <div className="mb-1 font-semibold text-gray-700">保存済み</div>
-        <div className="grid grid-cols-2 grid-rows-2 gap-2">
+        <div className="mb-2 text-[13px] font-medium text-slate-600">保存済み</div>
+        <div className="grid grid-cols-2 grid-rows-2 gap-3">
           {saved.map((s) => (
             <div
               key={s.id}
               onClick={() => applyPreset(s.id)}
-              className="relative h-24 cursor-pointer rounded-lg border p-2 hover:bg-gray-50"
+              className="relative h-[72px] cursor-pointer rounded-lg bg-white p-2.5 ring-2 ring-slate-300/80 shadow-sm transition hover:bg-slate-50"
+              title="クリックで適用"
             >
               <button
-                className="absolute right-2 top-2 rounded border px-2 py-0.5 text-xs"
+                className="absolute right-2 top-2 rounded-md border border-rose-300 bg-rose-50 px-2 py-0.5 text-xs text-rose-700 shadow-sm hover:bg-rose-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-200"
                 onClick={(e) => {
                   e.stopPropagation();
                   removePreset(s.id);
@@ -239,16 +226,19 @@ export default function Settings({ config, onChange, onStart }: Props) {
               >
                 削除
               </button>
-              <div className="truncate pr-10 text-[13px] font-semibold">{s.name}</div>
-              <div className="mt-1 line-clamp-2 text-[12.5px] leading-tight text-gray-700">
+              <div className="truncate pr-8 text-[13px] font-semibold text-slate-800">{s.name}</div>
+              <div className="mt-0.5 line-clamp-2 text-[12px] leading-[1.15] text-slate-600">
                 {summarize(s.config)}
               </div>
             </div>
           ))}
 
-          {/* プレースホルダーで 4 枚ぶん確保（透明） */}
+          {/* プレースホルダーも同じ高さ */}
           {Array.from({ length: Math.max(0, 4 - saved.length) }).map((_, i) => (
-            <div key={`ph-${i}`} className="h-24 rounded-lg border p-2 opacity-0" />
+            <div
+              key={`ph-${i}`}
+              className="h-[72px] rounded-lg bg-slate-50 p-2.5 ring-2 ring-slate-200/70"
+            />
           ))}
         </div>
       </div>
@@ -256,10 +246,10 @@ export default function Settings({ config, onChange, onStart }: Props) {
       {/* 保存名モーダル */}
       {showSave && (
         <div className="absolute inset-0 grid place-items-center rounded-xl bg-black/20">
-          <div className="w-[min(92vw,360px)] rounded-lg bg-white p-3 shadow-lg ring-1 ring-black/10">
-            <div className="mb-2 text-sm font-semibold">設定名を入力</div>
+          <div className="w-[min(92vw,360px)] rounded-lg bg-white p-4 shadow-lg ring-2 ring-slate-300/80">
+            <div className="mb-2 text-sm font-semibold text-slate-800">設定名を入力</div>
             <input
-              className="w-full rounded-md border px-2.5 py-1"
+              className="w-full rounded-md border border-slate-300 px-2.5 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-200"
               value={saveName}
               maxLength={MAX_NAME}
               onChange={(e) => setSaveName(e.target.value)}
@@ -267,11 +257,14 @@ export default function Settings({ config, onChange, onStart }: Props) {
               autoFocus
             />
             <div className="mt-3 flex justify-end gap-2">
-              <button className="rounded-md border px-2.5 py-1" onClick={() => setShowSave(false)}>
+              <button
+                className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-200"
+                onClick={() => setShowSave(false)}
+              >
                 キャンセル
               </button>
               <button
-                className="rounded-md bg-blue-600 px-3 py-1.5 text-white disabled:cursor-not-allowed disabled:opacity-50"
+                className="rounded-lg bg-[#1436C2] px-4 py-2 text-sm font-bold text-white shadow-sm hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-200 disabled:cursor-not-allowed disabled:opacity-50"
                 onClick={doSave}
                 disabled={isSaveDisabled}
               >
