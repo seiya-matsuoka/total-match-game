@@ -2,13 +2,15 @@ import { formatMMSS } from '../lib/time';
 import { cn } from '../lib/cn';
 
 type BoxProps = {
-  label?: string; // 枠内に表示するラベル
+  label?: string;
   tone: 'green' | 'blue' | 'orange';
-  children: React.ReactNode; // 値（数字など）
-  className?: string; // 行の比率指定など
+  children: React.ReactNode;
+  valueSizeClass: string;
+  cornerNote?: string; // ★ 右上に小さく表示（ハイスコアなど）
+  className?: string;
 };
 
-function InfoBox({ label, children, tone, className }: BoxProps) {
+function InfoBox({ label, children, tone, valueSizeClass, cornerNote, className }: BoxProps) {
   const tones = {
     green: 'bg-green-100 ring-green-500 text-green-900',
     blue: 'bg-blue-100 ring-blue-500 text-blue-900',
@@ -29,27 +31,48 @@ function InfoBox({ label, children, tone, className }: BoxProps) {
             {label}
           </div>
         )}
-        <div className="text-4xl sm:text-5xl font-extrabold">{children}</div>
+        {cornerNote && (
+          <div className="absolute right-2 top-2 rounded bg-black/10 px-2 py-0.5 text-[11px] font-semibold text-slate-700">
+            {cornerNote}
+          </div>
+        )}
+        <div className={cn('font-extrabold', valueSizeClass)}>{children}</div>
       </div>
     </div>
   );
 }
 
-type SidebarProps = { target: number; timeLeft: number; score: number };
+type SidebarProps = {
+  target: number;
+  timeLeft: number;
+  score: number;
+  gridSize: number;
+  highScore: number; // ★ 追加
+};
 
-/** ボード(520px)と高さを合わせ、行配分は「高:低:低」 */
-export default function Sidebar({ target, timeLeft, score }: SidebarProps) {
+export default function Sidebar({ target, timeLeft, score, gridSize, highScore }: SidebarProps) {
+  const valueSize =
+    gridSize === 5
+      ? 'text-3xl sm:text-4xl'
+      : gridSize === 4
+        ? 'text-4xl sm:text-5xl'
+        : 'text-5xl sm:text-6xl';
+
   return (
     <aside className="flex w-full max-w-[200px] flex-col gap-6 sm:h-[520px] sm:w-[200px]">
-      {/* ターゲット：背高め（比率7） */}
-      <InfoBox tone="green" className="flex-[7]">
+      <InfoBox tone="green" valueSizeClass={valueSize} className="flex-[7]">
         {target}
       </InfoBox>
-      {/* 残り時間・正解数：背低め（比率4/4） */}
-      <InfoBox label="のこり時間" tone="blue" className="flex-[4]">
+      <InfoBox label="のこり時間" tone="blue" valueSizeClass={valueSize} className="flex-[4]">
         {formatMMSS(timeLeft)}
       </InfoBox>
-      <InfoBox label="正解数" tone="orange" className="flex-[4]">
+      <InfoBox
+        label="正解数"
+        tone="orange"
+        valueSizeClass={valueSize}
+        className="flex-[4]"
+        cornerNote={`最高: ${highScore}`}
+      >
         {score}
       </InfoBox>
     </aside>

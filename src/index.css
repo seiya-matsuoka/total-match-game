@@ -1,1 +1,29 @@
 @import 'tailwindcss';
+
+/* 盤面のポップ演出 */
+@keyframes pop {
+  0% {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 選択時のプチ縮小→復帰 */
+@keyframes select {
+  0% {
+    transform: scale(1);
+  }
+
+  60% {
+    transform: scale(0.97);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
