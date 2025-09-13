@@ -93,7 +93,7 @@ export default function Settings({ config, onChange, onStart }: Props) {
   return (
     <div className="relative w-full max-w-[520px] rounded-xl bg-white p-4 text-[13px] ring-2 ring-slate-300/80 shadow-sm sm:p-6">
       {/* 上部バー */}
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mt-2 mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold text-slate-800">設定</h2>
         <button className={btnPrimaryNavy} onClick={onStart}>
           スタート
@@ -101,7 +101,7 @@ export default function Settings({ config, onChange, onStart }: Props) {
       </div>
 
       {/* 2カラム配置 */}
-      <div className="mb-4 grid grid-cols-2 gap-3">
+      <div className="mb-6 grid grid-cols-2 gap-3">
         {/* 操作 */}
         <div>
           <div className="mb-1 text-[13px] font-medium text-slate-600">操作</div>
@@ -209,7 +209,7 @@ export default function Settings({ config, onChange, onStart }: Props) {
       {/* 保存済み（2×2固定） */}
       <div>
         <div className="mb-2 text-[13px] font-medium text-slate-600">保存済み</div>
-        <div className="grid grid-cols-2 grid-rows-2 gap-3">
+        <div className="grid grid-cols-2 grid-rows-2 gap-3 mb-2">
           {saved.map((s) => (
             <div
               key={s.id}
@@ -226,8 +226,8 @@ export default function Settings({ config, onChange, onStart }: Props) {
               >
                 削除
               </button>
-              <div className="truncate pr-8 text-[13px] font-semibold text-slate-800">{s.name}</div>
-              <div className="mt-0.5 line-clamp-2 text-[12px] leading-[1.15] text-slate-600">
+              <div className="truncate pr-8 text-[14px] font-semibold text-slate-800">{s.name}</div>
+              <div className="mt-3 line-clamp-2 text-[13px] leading-[1.15] text-slate-600">
                 {summarize(s.config)}
               </div>
             </div>
