@@ -182,8 +182,16 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isRunning, ended, showHelp, config.controlMode, round.size, focusIdx, handleCellClick]);
 
+  // UI 統一クラス（説明/リセットボタン、ピルなど）
+  const pillCls =
+    'rounded-full bg-white/95 px-3.5 py-1.5 text-[13px] font-medium text-slate-800 shadow-sm ring-2 ring-slate-300/80';
+  const btnBase =
+    'rounded-lg px-3.5 py-1.5 text-sm font-medium bg-white shadow-sm ring-2 transition hover:bg-slate-50 active:translate-y-[0.5px] focus-visible:outline-none';
+  const btnInfo = `${btnBase} text-blue-800 ring-blue-400/70`;
+  const btnDanger = `${btnBase} text-rose-800 ring-rose-400/70`;
+
   return (
-    <main className="mx-auto min-h-svh max-w-5xl px-4 pb-12 pt-20 sm:px-6 sm:pb-18 sm:pt-28">
+    <main className="mx-auto min-h-svh max-w-5xl px-4 pb-12 pt-20 sm:px-6 sm:pb-18 sm:pt-28 -mt-3 sm:-mt-4">
       <Toaster richColors position="top-center" />
 
       <div className="mx-auto grid w-fit grid-cols-1 gap-8 sm:grid-cols-[200px_1fr] sm:gap-16 sm:items-start">
@@ -266,32 +274,22 @@ export default function App() {
             aria-live="polite"
           >
             <div className="flex items-center gap-2">
-              <span className="rounded-full bg-gray-100 px-3 py-1 font-medium text-gray-700">
-                合計: {currentSum}
-              </span>
+              <span className={pillCls}>合計: {currentSum}</span>
               {isRunning && (
-                <span className="rounded-full bg-gray-100 px-3 py-1 font-medium text-gray-700">
+                <span className={pillCls}>
                   選択: {selectedIdxs.length}/{maxSelect}
                 </span>
               )}
-              <span className="rounded-full bg-gray-100 px-3 py-1 font-medium text-gray-700">
+              <span className={pillCls}>
                 操作: {config.controlMode === 'mouse' ? 'マウス' : 'キーボード'}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-500">最高記録: {highScore}</span>
-              <button
-                type="button"
-                className="rounded-md border px-3 py-1.5"
-                onClick={() => setShowHelp(true)}
-              >
+              <span className={pillCls}>最高記録: {highScore}</span>
+              <button type="button" className={btnInfo} onClick={() => setShowHelp(true)}>
                 説明
               </button>
-              <button
-                type="button"
-                className="rounded-md border px-3 py-1.5"
-                onClick={resetToSettings}
-              >
+              <button type="button" className={btnDanger} onClick={resetToSettings}>
                 リセット
               </button>
             </div>
