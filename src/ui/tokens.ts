@@ -1,6 +1,11 @@
-// src/ui/tokens.ts
-export const pillCls =
-  'rounded-full bg-white/95 px-3.5 py-1.5 text-[13px] font-medium text-slate-800 shadow-sm ring-2 ring-slate-300/80';
+export const pillCls = [
+  'inline-flex items-center', // 中央寄せ
+  'rounded-full border border-slate-300/60 bg-slate-50/60 px-3 py-1',
+  'text-[13px] text-slate-700 shadow-sm backdrop-blur-sm',
+  'tabular-nums whitespace-nowrap',
+].join(' ');
+
+export const pillNum = 'inline-block ml-1 w-3 text-center tabular-nums';
 
 export const btnBase =
   'rounded-lg px-3.5 py-1.5 text-sm font-medium bg-white shadow-sm ring-2 transition hover:bg-slate-50 active:translate-y-[0.5px] focus-visible:outline-none';

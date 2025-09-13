@@ -13,7 +13,7 @@ import {
   loadHighScore,
   updateHighScoreIfBest,
 } from './game/config';
-import { pillCls, btnNeutral, btnDanger, btnInfo, btnPrimaryNavy } from './ui/tokens';
+import { pillCls, pillNum, btnNeutral, btnDanger, btnInfo, btnPrimaryNavy } from './ui/tokens';
 
 export default function App() {
   const [config, setConfig] = useState<GameConfig>(() => loadConfig());
@@ -279,7 +279,9 @@ export default function App() {
             aria-live="polite"
           >
             <div className="flex items-center gap-2">
-              <span className={pillCls}>合計: {currentSum}</span>
+              <span className={pillCls}>
+                合計: <span className={pillNum}>{currentSum}</span>
+              </span>
               {isRunning && (
                 <span className={pillCls}>
                   選択: {selectedIdxs.length}/{maxSelect}
@@ -290,7 +292,9 @@ export default function App() {
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className={pillCls}>最高記録: {highScore}</span>
+              <span className={pillCls}>
+                最高記録: <span className={pillNum}>{highScore}</span>
+              </span>
               <button type="button" className={btnInfo} onClick={() => setShowHelp(true)}>
                 説明
               </button>
