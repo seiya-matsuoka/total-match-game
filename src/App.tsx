@@ -282,11 +282,9 @@ export default function App() {
               <span className={pillCls}>
                 合計: <span className={pillNum}>{currentSum}</span>
               </span>
-              {isRunning && (
-                <span className={pillCls}>
-                  選択: {selectedIdxs.length}/{maxSelect}
-                </span>
-              )}
+              <span className={pillCls}>
+                選択: {selectedIdxs.length}/{maxSelect}
+              </span>
               <span className={pillCls}>
                 操作: {config.controlMode === 'mouse' ? 'マウス' : 'キーボード'}
               </span>
