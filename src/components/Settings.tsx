@@ -13,8 +13,11 @@ import {
   addSavedConfig,
   deleteSavedConfig,
   type SavedConfig,
+  resetAllData,
+  DEFAULT_CONFIG,
 } from '../game/config';
-import { btnPrimaryNavy } from '../ui/tokens';
+import { btnPrimaryNavy, btnDanger, btnInfo } from '../ui/tokens';
+import { toast } from 'sonner';
 
 type Props = { config: GameConfig; onChange: (n: GameConfig) => void; onStart: () => void };
 
@@ -73,21 +76,41 @@ export default function Settings({ config, onChange, onStart }: Props) {
     setSaveName(`設定${loadSavedConfigs().length + 1}`);
     setShowSave(true);
   }
+
   function doSave() {
     if (isSaveDisabled) return;
     addSavedConfig(saveName.trim() || `設定${loadSavedConfigs().length + 1}`, config);
     setSaved(loadSavedConfigs());
     setShowSave(false);
   }
+
   function applyPreset(id: string) {
     const item = saved.find((s) => s.id === id);
     if (!item) return;
     onChange(item.config);
     saveConfig(item.config);
   }
+
   function removePreset(id: string) {
     deleteSavedConfig(id);
     setSaved(loadSavedConfigs());
+  }
+
+  function handleFullReset() {
+    const ok = window.confirm('保存した設定・スコアをすべて削除します。よろしいですか？');
+    if (!ok) return;
+
+    resetAllData();
+
+    // UIを即時反映
+    setSaved([]);
+
+    if (typeof DEFAULT_CONFIG !== 'undefined') {
+      onChange(DEFAULT_CONFIG);
+      saveConfig(DEFAULT_CONFIG);
+    }
+
+    toast.success('データをリセットしました');
   }
 
   return (
@@ -193,7 +216,7 @@ export default function Settings({ config, onChange, onStart }: Props) {
             </div>
 
             <button
-              className={`rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium shadow-sm hover:bg-slate-50 active:translate-y-[0.5px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-200 ${isSaveDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
+              className={`${btnInfo} rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium shadow-sm hover:bg-slate-50 active:translate-y-[0.5px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-200 ${isSaveDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
               disabled={isSaveDisabled}
               onClick={openSave}
               title={
@@ -201,6 +224,15 @@ export default function Settings({ config, onChange, onStart }: Props) {
               }
             >
               保存
+            </button>
+
+            <button
+              type="button"
+              className={`${btnDanger} px-3 py-2`}
+              onClick={handleFullReset}
+              title="localStorage からこのアプリの全データを削除"
+            >
+              データをリセット
             </button>
           </div>
         </div>

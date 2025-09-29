@@ -20,7 +20,9 @@ export const DEFAULT_CONFIG: GameConfig = {
   controlMode: 'mouse',
 };
 
-const KEY_CONFIG = 'tmg-config:v3';
+const STORAGE_PREFIX = 'tmg:v1:';
+
+const KEY_CONFIG = `${STORAGE_PREFIX}config`;
 
 export const ALL_PICKS_OPTIONS: Array<GameConfig['picksCount']> = [3, 4, 5];
 export const ALL_TARGET_MAX_OPTIONS: Array<GameConfig['targetMax']> = [20, 25, 30, 35, 40];
@@ -63,8 +65,9 @@ export const CONTROL_MODE_OPTIONS: ControlMode[] = ['mouse', 'keyboard'];
 
 // --- 保存済み設定 ---
 export type SavedConfig = { id: string; name: string; config: GameConfig; createdAt: number };
-const KEY_SAVED = 'tmg-saved-configs:v1';
-const MAX_SAVED = 4; // ★ 上限4件
+
+const KEY_SAVED = `${STORAGE_PREFIX}saved-presets`;
+const MAX_SAVED = 4; //
 
 export function loadSavedConfigs(): SavedConfig[] {
   try {
@@ -89,8 +92,10 @@ export function deleteSavedConfig(id: string) {
 }
 
 // --- ハイスコア ---
-const KEY_SCORES = 'tmg-highscores:v1';
+const KEY_SCORES = `${STORAGE_PREFIX}scores`;
+
 type ScoreTable = Record<string, number>;
+
 function scoreKey(cfg: GameConfig) {
   return [
     `g${cfg.gridSize}`,
@@ -123,4 +128,15 @@ export function updateHighScoreIfBest(cfg: GameConfig, score: number): number {
   table[key] = best;
   localStorage.setItem(KEY_SCORES, JSON.stringify(table));
   return best;
+}
+
+// すべてのゲームデータ（設定/ハイスコア/保存済み設定）を削除する
+export function resetAllData(): void {
+  try {
+    localStorage.removeItem(KEY_CONFIG);
+    localStorage.removeItem(KEY_SCORES);
+    localStorage.removeItem(KEY_SAVED);
+  } catch {
+    // noop
+  }
 }
