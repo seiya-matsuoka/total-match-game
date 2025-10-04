@@ -213,38 +213,36 @@ export default function App() {
                 ref={boardRef}
                 tabIndex={0}
                 aria-label="number grid"
-                className="relative inline-block aspect-square w-[min(90vw,420px)] rounded-xl bg-cyan-50 p-3 ring-8 ring-blue-700/60 shadow-md outline-none sm:size-[520px] sm:p-4 overflow-hidden"
+                className="relative inline-block box-content transform-gpu aspect-square w-[min(90vw,420px)] sm:size-[520px] rounded-2xl bg-cyan-50 ring-8 ring-blue-700/60 shadow-md overflow-hidden"
                 onMouseLeave={() => setHoverIdx(null)}
               >
-                <Grid
-                  key={rollTick}
-                  className="animate-[pop_180ms_ease-out]"
-                  size={round.size}
-                  numbers={round.numbers}
-                  selectedIdxs={selectedIdxs}
-                  focusIdx={focusIdx}
-                  hoverIdx={hoverIdx}
-                  controlMode={config.controlMode}
-                  onHover={(i) => config.controlMode === 'mouse' && setHoverIdx(i)}
-                  onCellClick={handleCellClick}
-                  disabled={!isRunning || flashCorrect}
-                />
+                <div className="absolute inset-3 sm:inset-4">
+                  <Grid
+                    key={rollTick}
+                    className="animate-[pop_180ms_ease-out]"
+                    size={round.size}
+                    numbers={round.numbers}
+                    selectedIdxs={selectedIdxs}
+                    focusIdx={focusIdx}
+                    hoverIdx={hoverIdx}
+                    controlMode={config.controlMode}
+                    onHover={(i) => config.controlMode === 'mouse' && setHoverIdx(i)}
+                    onCellClick={handleCellClick}
+                    disabled={!isRunning || flashCorrect}
+                  />
+                </div>
 
-                {/* 設定オーバーレイ（開始前） */}
                 {!isRunning && !ended && (
-                  <div className="absolute inset-0 rounded-xl bg-white/90 p-2">
-                    {/* スクロールは内側だけに掛ける */}
-                    <div className="h-full w-full overflow-y-auto overscroll-contain">
-                      <div className="grid min-h-full place-items-center">
-                        <Settings config={config} onChange={setConfig} onStart={startGame} />
-                      </div>
+                  <div className="absolute inset-0 rounded-2xl bg-white/90">
+                    <div className="grid h-full place-items-center">
+                      <Settings config={config} onChange={setConfig} onStart={startGame} />
                     </div>
                   </div>
                 )}
 
                 {/* タイムアップオーバーレイ */}
                 {ended && (
-                  <div className="absolute inset-0 grid place-items-center rounded-xl bg-white/90 p-4 sm:p-6">
+                  <div className="absolute inset-0 grid place-items-center rounded-2xl bg-white/90 p-4 sm:p-6">
                     {/* 中央基準。-translate-y で“少し上”に見せる */}
                     <div className="w-[92%] max-w-[640px] text-center -translate-y-1 sm:-translate-y-2">
                       <h2 className="text-[32px] sm:text-[42px] font-extrabold tracking-wide text-slate-800">
@@ -282,7 +280,7 @@ export default function App() {
 
                 {/* 正解フラッシュ */}
                 {flashCorrect && (
-                  <div className="pointer-events-none absolute inset-0 grid place-items-center rounded-lg bg-emerald-200/70">
+                  <div className="pointer-events-none absolute inset-0 grid place-items-center rounded-2xl bg-emerald-200/70">
                     <span className="text-4xl sm:text-5xl font-extrabold text-emerald-800">
                       正解！
                     </span>
