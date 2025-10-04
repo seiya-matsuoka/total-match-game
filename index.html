@@ -1,20 +1,29 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';
-               img-src 'self' data: blob:; font-src 'self' data:;
-               connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'"
-    />
-    <title>Total Match Game</title>
-  </head>
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';
+               img-src 'self' data: blob:; font-src 'self' data:;
+               connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'" />
+  <meta property="og:title" content="Total Match Game">
+  <meta property="og:description" content="グリッドからN個の数字を選び合計をターゲットに一致させるゲーム">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://seiya-matsuoka.github.io/total-match-game/">
+
+  <!-- プレビュー画像 -->
+  <meta property="og:image" content="https://seiya-matsuoka.github.io/total-match-game/social-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ゲームのスクリーンショット">
+  <title>Total Match Game</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
