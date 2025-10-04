@@ -1,5 +1,20 @@
 # Total Match Game
 
+<p >
+  <a href="https://seiya-matsuoka.github.io/total-match-game/">
+    <img alt="Demo" src="https://img.shields.io/badge/demo-GitHub%20Pages-2ea44f?logo=github">
+  </a>
+  <a href="https://github.com/seiya-matsuoka/total-match-game/actions/workflows/deploy.yml">
+    <img alt="Deploy" src="https://github.com/seiya-matsuoka/total-match-game/actions/workflows/deploy.yml/badge.svg?branch=main">
+  </a>
+</p>
+
+<p >
+  <img alt="React" src="https://img.shields.io/badge/react-19-61DAFB?logo=react">
+  <img alt="TypeScript" src="https://img.shields.io/badge/typescript-5+-3178C6?logo=typescript">
+  <img alt="Tailwind v4" src="https://img.shields.io/badge/tailwindcss-4-06B6D4?logo=tailwindcss">
+</p>
+
 グリッドから **ちょうど N 個** の数字を選び、合計をターゲットに一致させるゲーム。  
 マウス/タップ・キーボードの両方に対応し、設定ごとにハイスコアを保存します。
 
@@ -7,7 +22,7 @@
 
 公開URL:https://seiya-matsuoka.github.io/total-match-game/
 
-[![Deploy to GitHub Pages](https://github.com/seiya-matsuoka/total-match-game/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/seiya-matsuoka/total-match-game/actions/workflows/deploy.yml)
+[![Open Demo – GitHub Pages](https://img.shields.io/badge/demo-GitHub%20Pages-2ea44f?logo=github)](https://seiya-matsuoka.github.io/total-match-game/)
 
 ## スクリーンショット
 
@@ -125,3 +140,5 @@ src/
 
 - `vite.config.js` の `base` を リポジトリ名に設定
 - GitHub Actions（`deploy.yml`）が `main` への push で自動デプロイ
+
+  [![Deploy to GitHub Pages](https://github.com/seiya-matsuoka/total-match-game/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/seiya-matsuoka/total-match-game/actions/workflows/deploy.yml)
