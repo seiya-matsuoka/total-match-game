@@ -141,7 +141,7 @@ export default function Settings({ config, onChange, onStart }: Props) {
                 className={`${segBase} ${m === config.controlMode ? segOn : segOff}`}
                 onClick={() => update('controlMode', m)}
               >
-                {m === 'mouse' ? 'マウス' : 'キーボード'}
+                {m === 'mouse' ? 'マウス / タップ' : 'キーボード'}
               </button>
             ))}
           </div>
@@ -205,22 +205,26 @@ export default function Settings({ config, onChange, onStart }: Props) {
           </div>
         </div>
 
-        {/* 不正解時 + 保存 */}
-        <div className="col-span-2">
+        {/* 不正解時 */}
+        <div>
           <div className="mb-1 text-[13px] font-medium text-slate-600">不正解時</div>
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex flex-wrap gap-2" role="group" aria-label="不正解時">
-              {WRONG_MODE_OPTIONS.map((m) => (
-                <button
-                  key={m}
-                  className={`${segBase} ${m === config.wrongMode ? segOn : segOff}`}
-                  onClick={() => update('wrongMode', m)}
-                >
-                  {m === 'keep' ? '問題継続' : '問題切替'}
-                </button>
-              ))}
-            </div>
+          <div className="flex flex-wrap gap-2" role="group" aria-label="不正解時">
+            {WRONG_MODE_OPTIONS.map((m) => (
+              <button
+                key={m}
+                className={`${segBase} ${m === config.wrongMode ? segOn : segOff}`}
+                onClick={() => update('wrongMode', m)}
+              >
+                {m === 'keep' ? '問題継続' : '問題切替'}
+              </button>
+            ))}
+          </div>
+        </div>
 
+        {/* 保存／データをリセット */}
+        <div>
+          <div className="mb-1 h-[18px] sm:h-[18px]" aria-hidden="true" />
+          <div className="flex flex-wrap gap-2">
             <button
               className={`${btnInfo} rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium shadow-sm hover:bg-slate-50 active:translate-y-[0.5px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-200 ${isSaveDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
               disabled={isSaveDisabled}
