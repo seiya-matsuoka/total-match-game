@@ -220,9 +220,12 @@ export default function App() {
 
             {/* 設定オーバーレイ（開始前） */}
             {!isRunning && !ended && (
-              <div className="absolute inset-0 rounded-xl bg-white/90">
-                <div className="grid h-full place-items-center">
-                  <Settings config={config} onChange={setConfig} onStart={startGame} />
+              <div className="absolute inset-0 rounded-xl bg-white/90 p-2">
+                {/* スクロールは内側だけに掛ける */}
+                <div className="h-full w-full overflow-y-auto overscroll-contain">
+                  <div className="grid min-h-full place-items-center">
+                    <Settings config={config} onChange={setConfig} onStart={startGame} />
+                  </div>
                 </div>
               </div>
             )}
