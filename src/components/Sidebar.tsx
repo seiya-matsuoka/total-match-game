@@ -6,7 +6,7 @@ type BoxProps = {
   tone: 'green' | 'blue' | 'orange';
   children: React.ReactNode;
   valueSizeClass: string;
-  cornerNote?: string; // ★ 右上に小さく表示（ハイスコアなど）
+  cornerNote?: string;
   className?: string;
 };
 
@@ -18,7 +18,7 @@ function InfoBox({ label, children, tone, valueSizeClass, cornerNote, className 
   } as const;
 
   return (
-    <div className={cn('min-h-0', className)}>
+    <div className={cn('min-h-[104px] sm:min-h-0', className)}>
       <div
         className={cn(
           'relative grid h-full place-items-center rounded-xl px-4 py-2 leading-none',
@@ -47,7 +47,7 @@ type SidebarProps = {
   timeLeft: number;
   score: number;
   gridSize: number;
-  highScore: number; // ★ 追加
+  highScore: number;
 };
 
 export default function Sidebar({ target, timeLeft, score, gridSize, highScore }: SidebarProps) {
@@ -59,18 +59,32 @@ export default function Sidebar({ target, timeLeft, score, gridSize, highScore }
         : 'text-5xl sm:text-6xl';
 
   return (
-    <aside className="flex w-full max-w-[200px] flex-col gap-6 sm:h-[520px] sm:w-[200px]">
-      <InfoBox tone="green" valueSizeClass={valueSize} className="flex-[7]">
+    /**
+     * PC      : 左サイドに縦並び
+     * モバイル: 3カラムのグリッドを横並びでグリッド上部に表示
+     */
+    <aside
+      className={cn(
+        'grid grid-cols-3 gap-3 w-full',
+        'sm:flex sm:w-[200px] sm:h-[520px] sm:flex-col sm:gap-6 sm:grid-cols-1',
+      )}
+    >
+      {/* ターゲット */}
+      <InfoBox tone="green" valueSizeClass={valueSize} className="sm:flex-[7]">
         {target}
       </InfoBox>
-      <InfoBox label="のこり時間" tone="blue" valueSizeClass={valueSize} className="flex-[4]">
+
+      {/* 残り時間 */}
+      <InfoBox label="のこり時間" tone="blue" valueSizeClass={valueSize} className="sm:flex-[4]">
         {formatMMSS(timeLeft)}
       </InfoBox>
+
+      {/* 正解数 */}
       <InfoBox
         label="正解数"
         tone="orange"
         valueSizeClass={valueSize}
-        className="flex-[4]"
+        className="sm:flex-[4]"
         cornerNote={`最高: ${highScore}`}
       >
         {score}
