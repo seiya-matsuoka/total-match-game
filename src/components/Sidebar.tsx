@@ -37,7 +37,9 @@ function InfoBox({ label, children, tone, valueSizeClass, cornerNote, className 
             {cornerNote}
           </div>
         )}
-        <div className={cn('font-extrabold', valueSizeClass)}>{children}</div>
+        <div className={cn('font-extrabold tabular-nums leading-none', valueSizeClass)}>
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -47,23 +49,16 @@ type SidebarProps = {
   target: number;
   timeLeft: number;
   score: number;
-  gridSize: number;
   highScore: number;
 };
 
-export default function Sidebar({ target, timeLeft, score, gridSize, highScore }: SidebarProps) {
-  const valueSize =
-    gridSize === 5
-      ? 'text-3xl sm:text-4xl'
-      : gridSize === 4
-        ? 'text-4xl sm:text-5xl'
-        : 'text-5xl sm:text-6xl';
+export default function Sidebar({ target, timeLeft, score, highScore }: SidebarProps) {
+  // 固定サイズ
+  const TARGET_SIZE = 'text-5xl sm:text-6xl';
+  const META_SIZE = 'text-4xl sm:text-5xl';
 
   return (
-    /**
-     * PC      : 左サイドに縦並び
-     * モバイル: 3カラムのグリッドを横並びでグリッド上部に表示
-     */
+    // PC：左サイドに縦並び、モバイル：3カラムのグリッドを横並びでグリッド上部に表示
     <aside
       className={cn(
         'grid grid-cols-3 gap-3 w-full',
@@ -71,12 +66,12 @@ export default function Sidebar({ target, timeLeft, score, gridSize, highScore }
       )}
     >
       {/* ターゲット */}
-      <InfoBox tone="green" valueSizeClass={valueSize} className="sm:flex-[7]">
+      <InfoBox tone="green" valueSizeClass={TARGET_SIZE} className="sm:flex-[7]">
         {target}
       </InfoBox>
 
       {/* 残り時間 */}
-      <InfoBox label="のこり時間" tone="blue" valueSizeClass={valueSize} className="sm:flex-[4]">
+      <InfoBox label="のこり時間" tone="blue" valueSizeClass={META_SIZE} className="sm:flex-[4]">
         {formatMMSS(timeLeft)}
       </InfoBox>
 
@@ -84,7 +79,7 @@ export default function Sidebar({ target, timeLeft, score, gridSize, highScore }
       <InfoBox
         label="正解数"
         tone="orange"
-        valueSizeClass={valueSize}
+        valueSizeClass={META_SIZE}
         className="sm:flex-[4]"
         cornerNote={`最高: ${highScore}`}
       >

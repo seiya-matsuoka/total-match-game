@@ -204,7 +204,6 @@ export default function App() {
               target={round.target}
               timeLeft={timeLeft}
               score={score}
-              gridSize={round.size}
               highScore={highScore}
             />
 
