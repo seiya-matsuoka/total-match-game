@@ -22,6 +22,7 @@ function InfoBox({ label, children, tone, valueSizeClass, cornerNote, className 
       <div
         className={cn(
           'relative grid h-full place-items-center rounded-xl px-4 py-2 leading-none',
+          label && 'pt-6',
           'ring-4 shadow-[inset_0_1px_0_rgba(255,255,255,.6)]',
           tones[tone],
         )}
