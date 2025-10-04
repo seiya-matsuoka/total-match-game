@@ -114,7 +114,13 @@ export default function Settings({ config, onChange, onStart }: Props) {
   }
 
   return (
-    <div className="relative w-full max-w-[520px] rounded-xl bg-white p-4 text-[13px] ring-2 ring-slate-300/80 shadow-sm sm:p-6">
+    <div
+      className="
+        relative w-full max-w-[520px]
+        rounded-xl bg-white p-3 text-[13px] shadow
+        max-h-full overflow-y-auto overscroll-contain
+      "
+    >
       {/* 上部バー */}
       <div className="mt-2 mb-4 flex items-center justify-between">
         <h2 className="text-lg font-bold text-slate-800">設定</h2>
