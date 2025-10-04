@@ -1,4 +1,3 @@
-// src/components/HowTo.tsx
 type Props = { onClose: () => void };
 
 export default function HowTo({ onClose }: Props) {
@@ -14,9 +13,9 @@ export default function HowTo({ onClose }: Props) {
       >
         {/* 見出し（コンパクト） */}
         <div className="mb-2 text-center text-[14px] font-bold leading-snug sm:mb-3 sm:text-[15px]">
-          右のパネルから選んで
+          パネルから選んで
           <br />
-          左の数字になるようにしよう
+          ターゲットの数字になるようにしよう
         </div>
 
         {/* ====== 例：左サイドバー + 3×3 ====== */}
