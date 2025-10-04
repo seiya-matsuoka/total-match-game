@@ -185,7 +185,7 @@ export default function App() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
+      <header className="z-40 w-full shadow-[0_2px_10px_rgba(0,0,0,0.06)]">
         <div className="bg-gradient-to-r from-indigo-500 to-sky-400">
           <div className="mx-auto max-w-5xl px-4 py-3 sm:px-6 sm:py-4">
             <h1 className="text-center text-white text-xl font-extrabold tracking-wide sm:text-2xl">
@@ -196,7 +196,7 @@ export default function App() {
       </header>
 
       <div className="min-h-svh bg-gradient-to-b from-sky-50 to-indigo-50">
-        <main className="mx-auto min-h-svh max-w-5xl px-4 pb-12 pt-20 sm:px-6 sm:pb-18 sm:pt-28 -mt-3 sm:-mt-4">
+        <main className="mx-auto min-h-svh max-w-5xl px-4 pb-12 pt-20 sm:px-6 sm:pb-18 sm:pt-28">
           <Toaster richColors position="top-center" />
 
           <div className="mx-auto grid w-fit grid-cols-1 gap-8 sm:grid-cols-[200px_1fr] sm:gap-16 sm:items-start">
